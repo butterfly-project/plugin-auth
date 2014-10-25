@@ -1,0 +1,26 @@
+{
+    "name": "butterfly/plugin-auth",
+    "type": "library",
+    "description": "Butterfly PHP. Auth Plugin",
+    "keywords": ["plugin", "identification", "authorization"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marat Fakhertdinov",
+            "email": "marat.fakhertdinov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+
+        "butterfly/adapter-sf2-event-dispatcher": "1.0.*",
+        "butterfly/app-request-response": "1.0.*",
+        "symfony/http-foundation": "2.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Butterfly\\Plugin\\Auth\\": "src/",
+            "Butterfly\\Plugin\\Auth\\Tests\\": "tests/unit/"
+        }
+    }
+}
