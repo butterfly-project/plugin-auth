@@ -13,6 +13,7 @@
     "require": {
         "php": ">=5.3.3",
 
+        "butterfly/adapter-sf2-routing": "1.0.*",
         "butterfly/adapter-sf2-event-dispatcher": "1.0.*",
         "butterfly/app-request-response": "1.0.*",
         "symfony/http-foundation": "2.5.*"
@@ -22,5 +23,6 @@
             "Butterfly\\Plugin\\Auth\\": "src/",
             "Butterfly\\Plugin\\Auth\\Tests\\": "tests/unit/"
         }
-    }
+    },
+    "priority": 10
 }
