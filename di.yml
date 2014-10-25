@@ -4,7 +4,7 @@ services:
 
   bfy_plugin.auth.identification:
     class: 'Butterfly\Plugin\Auth\IdentificationService'
-    arguments: [@bfy_adapter.http_foundation.request, %bfy_plugin.auth.id_parameter_name%]
+    arguments: [@bfy_adapter.http_foundation.session, %bfy_plugin.auth.id_parameter_name%]
 
   bfy_plugin.auth.authorization_router:
     class: 'Butterfly\Plugin\Auth\AuthorizationRouter'
