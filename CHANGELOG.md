@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.1.2
+-----
+
+Changes:
+
+ * Remove dependency http-foundation
+
 1.1.1
 -----
 
