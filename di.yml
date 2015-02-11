@@ -8,7 +8,7 @@ services:
 
   bfy_plugin.auth.authorization_router:
     class: 'Butterfly\Plugin\Auth\AuthorizationRouter'
-    arguments: [@bfy_adapter.sf2_routing, @bfy_plugin.auth.identification, @bfy_adapter.event_dispatcher]
+    arguments: [@bfy_adapter.sf2_routing.router, @bfy_plugin.auth.identification, @bfy_adapter.event_dispatcher]
 
 interfaces:
   'Butterfly\Application\RequestResponse\Routing\IRouterAware': 'bfy_plugin.auth.authorization_router'
