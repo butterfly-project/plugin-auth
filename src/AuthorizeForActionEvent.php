@@ -5,6 +5,9 @@ namespace Butterfly\Plugin\Auth;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
 class AuthorizeForActionEvent extends Event
 {
     const EVENT_NAME = 'routing.authorize';
@@ -22,18 +25,18 @@ class AuthorizeForActionEvent extends Event
     /**
      * @var string
      */
-    protected $actionCode;
+    protected $action;
 
     /**
      * @param Request $request
      * @param Identificator $identificator
-     * @param string $actionCode
+     * @param string $action
      */
-    public function __construct(Request $request, Identificator $identificator, $actionCode)
+    public function __construct(Request $request, Identificator $identificator, $action)
     {
         $this->request       = $request;
         $this->identificator = $identificator;
-        $this->actionCode    = $actionCode;
+        $this->action        = $action;
     }
 
     /**
@@ -55,16 +58,16 @@ class AuthorizeForActionEvent extends Event
     /**
      * @return string
      */
-    public function getActionCode()
+    public function getAction()
     {
-        return $this->actionCode;
+        return $this->action;
     }
 
     /**
-     * @param string $actionCode
+     * @param string $action
      */
-    public function setActionCode($actionCode)
+    public function setAction($action)
     {
-        $this->actionCode = $actionCode;
+        $this->action = $action;
     }
 }

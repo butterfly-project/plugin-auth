@@ -6,31 +6,36 @@ use Butterfly\Plugin\Auth\AuthorizeForActionEvent;
 use Butterfly\Plugin\Auth\Identificator;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
 class AuthorizeForActionEventTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $request       = $this->getRequest();
         $identificator = $this->getIdentificator();
-        $actionCode    = 'action:code';
+        $action        = array('action:code', $request);
 
-        $event = new AuthorizeForActionEvent($request, $identificator, $actionCode);
+        $event = new AuthorizeForActionEvent($request, $identificator, $action);
 
         $this->assertEquals($request, $event->getRequest());
         $this->assertEquals($identificator, $event->getIdentificator());
-        $this->assertEquals($actionCode, $event->getActionCode());
+        $this->assertEquals($action, $event->getAction());
     }
 
     public function testSetActionCode()
     {
         $request       = $this->getRequest();
         $identificator = $this->getIdentificator();
+        $action        = array('action:code', $request);
 
-        $event = new AuthorizeForActionEvent($request, $identificator, 'action:code');
+        $event = new AuthorizeForActionEvent($request, $identificator, $action);
 
-        $event->setActionCode('action:code:new');
+        $newAction = array('action:code:new', $request);
+        $event->setAction($newAction);
 
-        $this->assertEquals('action:code:new', $event->getActionCode());
+        $this->assertEquals($newAction, $event->getAction());
     }
 
     /**

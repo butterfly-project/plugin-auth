@@ -4,6 +4,9 @@ namespace Butterfly\Plugin\Auth;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
 class IdentificationService
 {
     /**
