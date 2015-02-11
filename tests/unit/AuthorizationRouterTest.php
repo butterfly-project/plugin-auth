@@ -11,20 +11,24 @@ use Butterfly\Plugin\Auth\IdentificationService;
 use Butterfly\Plugin\Auth\Identificator;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
 class AuthorizationRouterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetActionCode()
+    public function testGetAction()
     {
-        $routeName     = 'test_route';
-        $request       = $this->getRequest();
-        $identificator = $this->getIdentificator();
+        $routeName      = 'test_route';
+        $request        = $this->getRequest();
+        $identificator  = $this->getIdentificator();
+        $expectedAction = array($routeName, array($request));
 
         $basicRouter = $this->getBasicRouter();
         $basicRouter
             ->expects($this->once())
-            ->method('getActionCode')
+            ->method('getAction')
             ->with($request)
-            ->will($this->returnValue($routeName));
+            ->will($this->returnValue($expectedAction));
 
         $identificationService = $this->getIdentificationService();
         $identificationService
@@ -37,47 +41,13 @@ class AuthorizationRouterTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(AuthorizeForActionEvent::EVENT_NAME, new AuthorizeForActionEvent($request, $identificator, $routeName));
+            ->with(AuthorizeForActionEvent::EVENT_NAME, new AuthorizeForActionEvent($request, $identificator, $expectedAction));
 
         $router = new AuthorizationRouter($basicRouter, $identificationService, $eventDispatcher);
 
-        $result = $router->getActionCode($request);
+        $result = $router->getAction($request);
 
-        $this->assertEquals($routeName, $result);
-    }
-
-    public function testInject()
-    {
-        $basicRouter           = $this->getBasicRouter();
-        $identificationService = $this->getIdentificationService();
-        $eventDispatcher       = $this->getEventDispatcher();
-
-        $router = new AuthorizationRouter($basicRouter, $identificationService, $eventDispatcher);
-
-        $object = $this->getRouterAware();
-        $object
-            ->expects($this->once())
-            ->method('setRouter')
-            ->with($router);
-
-        $router->inject($object);
-    }
-
-    public function testInjectIfNotIRouterAware()
-    {
-        $basicRouter           = $this->getBasicRouter();
-        $identificationService = $this->getIdentificationService();
-        $eventDispatcher       = $this->getEventDispatcher();
-
-        $router = new AuthorizationRouter($basicRouter, $identificationService, $eventDispatcher);
-
-        $object = $this->getNotIRouterAware();
-        $object
-            ->expects($this->never())
-            ->method('setRouter')
-            ->withAnyParameters();
-
-        $router->inject($object);
+        $this->assertEquals($expectedAction, $result);
     }
 
     /**
@@ -108,14 +78,6 @@ class AuthorizationRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|IRouterAware
-     */
-    protected function getRouterAware()
-    {
-        return $this->getMock('\Butterfly\Application\RequestResponse\Routing\IRouterAware');
-    }
-
-    /**
      * @return \PHPUnit_Framework_MockObject_MockObject|IdentificationService
      */
     protected function getIdentificationService()
@@ -132,13 +94,5 @@ class AuthorizationRouterTest extends \PHPUnit_Framework_TestCase
     protected function getEventDispatcher()
     {
         return $this->getMock('\Butterfly\Adapter\Sf2EventDispatcher\EventDispatcher');
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getNotIRouterAware()
-    {
-        return $this->getMock('\StdClass', array('setRouter'));
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Butterfly\Plugin\Auth;
 
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
 class Identificator
 {
     /**

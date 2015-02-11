@@ -4,11 +4,12 @@ namespace Butterfly\Plugin\Auth;
 
 use Butterfly\Adapter\Sf2EventDispatcher\EventDispatcher;
 use Butterfly\Application\RequestResponse\Routing\IRouter;
-use Butterfly\Application\RequestResponse\Routing\IRouterAware;
-use Butterfly\Component\DI\IInjector;
 use Symfony\Component\HttpFoundation\Request;
 
-class AuthorizationRouter implements IRouter, IInjector
+/**
+ * @author Marat Fakhertdinov <marat.fakhertdinov@gmail.com>
+ */
+class AuthorizationRouter implements IRouter
 {
     /**
      * @var IRouter
@@ -42,48 +43,28 @@ class AuthorizationRouter implements IRouter, IInjector
 
     /**
      * @param Request $request
-     * @return string
+     * @return array|null ($actionName, array $parameters)
      */
-    public function getActionCode(Request $request)
+    public function getAction(Request $request)
     {
-        $actionCode    = $this->router->getActionCode($request);
+        $action        = $this->router->getAction($request);
         $identificator = $this->identificationService->getIdentificator();
 
-        return $this->authorizeForAction($request, $identificator, $actionCode);
+        return $this->authorizeForAction($request, $identificator, $action);
     }
 
     /**
      * @param Request $request
      * @param Identificator $identificator
-     * @param string $actionCode
+     * @param mixed $action
      * @return string
      */
-    protected function authorizeForAction(Request $request, Identificator $identificator, $actionCode)
+    protected function authorizeForAction(Request $request, Identificator $identificator, $action)
     {
-        $event = new AuthorizeForActionEvent($request, $identificator, $actionCode);
+        $event = new AuthorizeForActionEvent($request, $identificator, $action);
+
         $this->eventDispatcher->dispatch(AuthorizeForActionEvent::EVENT_NAME, $event);
 
-        return $event->getActionCode();
-    }
-
-    /**
-     * @param string $route
-     * @param array  $parameters
-     * @param bool   $isAbsolute
-     * @return string The generated URL
-     */
-    public function generateUrl($route, array $parameters = array(), $isAbsolute = true)
-    {
-        return $this->router->generateUrl($route, $parameters, $isAbsolute);
-    }
-
-    /**
-     * @param Object $object
-     */
-    public function inject($object)
-    {
-        if ($object instanceof IRouterAware) {
-            $object->setRouter($this);
-        }
+        return $event->getAction();
     }
 }
