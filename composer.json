@@ -13,6 +13,7 @@
     "require": {
         "php": ">=5.3.3",
 
+        "butterfly/adapter-sf2-routing": "~1.2",
         "butterfly/app-request-response": "~1.0"
     },
     "autoload": {
