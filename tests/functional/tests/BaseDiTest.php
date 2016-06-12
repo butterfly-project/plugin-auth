@@ -2,6 +2,8 @@
 
 namespace Butterfly\Tests;
 
+use Butterfly\Component\Annotations\ClassParser;
+use Butterfly\Component\Annotations\Parser\PhpDocParser;
 use Butterfly\Component\DI\Container;
 use Butterfly\Component\Packages\PackagesConfig;
 
@@ -18,7 +20,8 @@ abstract class BaseDiTest extends \PHPUnit_Framework_TestCase
     {
         self::$baseDir = realpath(__DIR__ . '/..');
 
-        $config = PackagesConfig::buildForComposer(self::$baseDir, static::getAdditionalConfigPaths());
+        $classParser = new ClassParser(new PhpDocParser());
+        $config = PackagesConfig::buildForComposer(self::$baseDir, $classParser, static::getAdditionalConfigPaths());
 
         self::$container = new Container($config);
     }

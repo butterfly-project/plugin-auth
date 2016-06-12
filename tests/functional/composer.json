@@ -7,9 +7,9 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "butterfly/packages": "1.2.*",
+        "butterfly/packages": "2.0.x-dev",
 
-        "butterfly/plugin-auth": "dev-dev"
+        "butterfly/plugin-auth": "2.0.x-dev"
     },
     "autoload": {
         "psr-4": {
