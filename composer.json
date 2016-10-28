@@ -13,8 +13,8 @@
     "require": {
         "php": ">=5.3.3",
 
-        "butterfly/adapter-sf2-routing": "2.0.x-dev",
-        "butterfly/app-request-response": "~1.0"
+        "butterfly/adapter-sf2-routing": "*",
+        "butterfly/app-request-response": "*"
     },
     "autoload": {
         "psr-4": {
